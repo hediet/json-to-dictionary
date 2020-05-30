@@ -67,9 +67,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hediet/npm-template@workspace:.":
+"@hediet/json-to-dictionary@workspace:.":
   version: 0.0.0-use.local
-  resolution: "@hediet/npm-template@workspace:."
+  resolution: "@hediet/json-to-dictionary@workspace:."
   dependencies:
     "@actions/exec": ^1.0.4
     "@actions/github": ^2.2.0

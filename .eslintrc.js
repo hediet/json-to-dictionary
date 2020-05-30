@@ -7,5 +7,7 @@ module.exports = {
 
 	rules: {
 		"@typescript-eslint/no-non-null-assertion": "off",
+		"no-mixed-spaces-and-tabs": "off",
+		"@typescript-eslint/no-explicit-any": "off",
 	},
 };

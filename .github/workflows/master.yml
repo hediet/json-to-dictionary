@@ -19,6 +19,10 @@ jobs:
                   registry-url: "https://registry.npmjs.org"
             - run: yarn install --immutable
             - run: yarn run-script set-version-from-changelog
-            - run: yarn run-script trigger-prerelease
+            # Change the following lines to just triggering the prerelease
+            - run: yarn build
+            - run: yarn test
+            - run: yarn run-script pub
               env:
                   GH_TOKEN: ${{ secrets.GH_TOKEN }}
+                  NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

@@ -1,4 +1,4 @@
-# README
+# JSON to Dictionary
 
 [![](https://img.shields.io/twitter/follow/hediet_dev.svg?style=social)](https://twitter.com/intent/follow?screen_name=hediet_dev)
 
@@ -7,5 +7,5 @@
 To install the library:
 
 ```
-yarn add
+yarn add @hediet/json-to-dictionary
 ```

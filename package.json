@@ -1,7 +1,7 @@
 {
-	"name": "@hediet/npm-template",
+	"name": "@hediet/json-to-dictionary",
 	"version": "set-version-from-changelog",
-	"description": "Highly experimental. Do not use yet.",
+	"description": "Converts json to a list of stringified key value pairs and back.",
 	"author": "Henning Dieterichs",
 	"license": "MIT",
 	"main": "./dist/src/index.js",
