@@ -18,9 +18,9 @@ jobs:
                   node-version: 10.x
                   registry-url: "https://registry.npmjs.org"
             - run: yarn install --immutable
+            - run: yarn lint
             - run: yarn run-script set-version-from-changelog
             # Change the following lines to just triggering the prerelease
-            - run: yarn lint
             - run: yarn build
             - run: yarn test
             - run: yarn run-script pub
