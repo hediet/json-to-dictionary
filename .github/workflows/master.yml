@@ -1,4 +1,4 @@
-name: Trigger Prerelease
+name: Release
 on:
     push:
         branches:
@@ -20,6 +20,7 @@ jobs:
             - run: yarn install --immutable
             - run: yarn run-script set-version-from-changelog
             # Change the following lines to just triggering the prerelease
+            - run: yarn lint
             - run: yarn build
             - run: yarn test
             - run: yarn run-script pub

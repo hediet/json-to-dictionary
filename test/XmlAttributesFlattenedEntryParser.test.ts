@@ -1,19 +1,7 @@
 import {} from "mocha";
 import { deepEqual } from "assert";
-import {
-	FlattenedEntryParser,
-	FlattenedEntry,
-	FlattenToDictionary,
-	JSONValue,
-} from "../src";
+import { FlattenToDictionary, JSONValue } from "../src";
 import { XmlAttributesFlattenedEntryParser } from "../src";
-
-function safeParse(key: string, value: string): FlattenedEntry {
-	const p = new FlattenedEntryParser();
-	const entry = p.parse([key, value]);
-	deepEqual(p.toString(entry), [key, value]);
-	return entry;
-}
 
 function safeJsonToDictionary(
 	value: JSONValue,
@@ -46,7 +34,7 @@ describe("XmlAttributesFlattenedEntryParser", () => {
 		});
 	});
 
-	it("Integration 1", () => {
+	it("Integration Example Draw.io Code Position", () => {
 		deepEqual(
 			safeJsonToDictionary({
 				uri:

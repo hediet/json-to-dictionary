@@ -1,9 +1,8 @@
-import {} from "mocha";
+/*
 import { deepEqual } from "assert";
 import { JSONValue } from "../src/JSONValue";
 import { jsonToDictionary, dictionaryToJson } from "../src/jsonToDictionary";
 
-/*
 function safeJsonToDictionary(value: JSONValue): Record<string, string> {
 	const dict = jsonToDictionary(value);
 	deepEqual(dictionaryToJson(dict), value);
