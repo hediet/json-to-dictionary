@@ -1,16 +1,18 @@
 import {} from "mocha";
 import { deepEqual } from "assert";
-import { FlattenToDictionary, JSONValue } from "../src";
+import {
+	FlattenToDictionary,
+	JSONValue,
+	ConservativeFlattenedEntryParserOptions,
+} from "../src";
 import { ConservativeFlattenedEntryParser } from "../src";
 
 function safeJsonToDictionary(
 	value: JSONValue,
-	options: { prefix?: string } = {}
+	options: ConservativeFlattenedEntryParserOptions = {}
 ): Record<string, string> {
 	const f = new FlattenToDictionary({
-		parser: new ConservativeFlattenedEntryParser({
-			prefix: options.prefix || "",
-		}),
+		parser: new ConservativeFlattenedEntryParser(options),
 	});
 	const dict = f.flatten(value);
 	deepEqual(f.unflatten(dict), value);
@@ -26,6 +28,17 @@ describe("XmlAttributesFlattenedEntryParser", () => {
 		deepEqual(safeJsonToDictionary(1, { prefix: "pre.fix" }), {
 			"pre.fix.x-num": "1",
 		});
+
+		deepEqual(
+			safeJsonToDictionary(1, {
+				prefix: "pre.fix",
+				pragmaPrefix: "y-",
+				separator: "_",
+			}),
+			{
+				"pre.fix_y-num": "1",
+			}
+		);
 
 		deepEqual(safeJsonToDictionary("str"), {
 			"": "str",

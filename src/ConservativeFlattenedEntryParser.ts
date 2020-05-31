@@ -26,6 +26,13 @@ const parsers = {
 	},
 };
 
+export interface ConservativeFlattenedEntryParserOptions {
+	prefix?: string;
+	separator?: string;
+	pragmaPrefix?: string;
+	allowedFieldRegex?: RegExp;
+}
+
 export class ConservativeFlattenedEntryParser
 	implements FlattenedEntryParserInterface {
 	public readonly prefix: string;
@@ -33,14 +40,7 @@ export class ConservativeFlattenedEntryParser
 	public readonly pragmaPrefix: string;
 	public readonly allowedFieldRegex: RegExp;
 
-	constructor(
-		options: {
-			prefix?: string;
-			separator?: string;
-			pragmaPrefix?: string;
-			allowedFieldRegex?: RegExp;
-		} = {}
-	) {
+	constructor(options: ConservativeFlattenedEntryParserOptions = {}) {
 		this.prefix = options.prefix !== undefined ? options.prefix : "";
 		this.separator =
 			options.separator !== undefined ? options.separator : ".";
@@ -58,7 +58,7 @@ export class ConservativeFlattenedEntryParser
 		}
 		key = key.substr(this.prefix.length);
 
-		const parts = key.split(".");
+		const parts = key.split(this.separator);
 		let parser: keyof typeof parsers | undefined = undefined;
 
 		const path = new Array<PathItem>();
@@ -139,6 +139,6 @@ export class ConservativeFlattenedEntryParser
 			resultValue = parsedValue;
 		}
 
-		return [path.join("."), resultValue];
+		return [path.join(this.separator), resultValue];
 	}
 }
