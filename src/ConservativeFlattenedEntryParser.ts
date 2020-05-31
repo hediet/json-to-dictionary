@@ -26,9 +26,31 @@ const parsers = {
 	},
 };
 
-export class XmlAttributesFlattenedEntryParser
+export class ConservativeFlattenedEntryParser
 	implements FlattenedEntryParserInterface {
-	constructor(public readonly prefix: string = "") {}
+	public readonly prefix: string;
+	public readonly separator: string;
+	public readonly pragmaPrefix: string;
+	public readonly allowedFieldRegex: RegExp;
+
+	constructor(
+		options: {
+			prefix?: string;
+			separator?: string;
+			pragmaPrefix?: string;
+			allowedFieldRegex?: RegExp;
+		} = {}
+	) {
+		this.prefix = options.prefix !== undefined ? options.prefix : "";
+		this.separator =
+			options.separator !== undefined ? options.separator : ".";
+		this.pragmaPrefix =
+			options.pragmaPrefix !== undefined ? options.pragmaPrefix : "x-";
+		this.allowedFieldRegex =
+			options.allowedFieldRegex !== undefined
+				? options.allowedFieldRegex
+				: /^[a-zA-Z-][a-zA-Z0-9-_]*$/;
+	}
 
 	public parse([key, value]: [string, string]): FlattenedEntry {
 		if (!key.startsWith(this.prefix)) {
@@ -52,8 +74,8 @@ export class XmlAttributesFlattenedEntryParser
 				);
 			}
 
-			if (part.startsWith("x-")) {
-				const rest = part.substr(2);
+			if (part.startsWith(this.pragmaPrefix)) {
+				const rest = part.substr(this.pragmaPrefix.length);
 				const newParser = Object.keys(parsers).find((p) => p === rest);
 				if (newParser) {
 					parser = newParser as any;
@@ -78,15 +100,15 @@ export class XmlAttributesFlattenedEntryParser
 		const path = entry.path.map((p) => {
 			if (p.kind === "field") {
 				if (
-					p.name.startsWith("x-") ||
-					!p.name.match(/^[a-zA-Z-][a-zA-Z0-9-_]*$/)
+					p.name.startsWith(this.pragmaPrefix) ||
+					!p.name.match(this.allowedFieldRegex)
 				) {
 					error = true;
 				}
 				return p.name;
 			}
 			if (p.kind === "index") {
-				return `x-${p.index}`;
+				return `${this.pragmaPrefix}${p.index}`;
 			}
 		});
 
@@ -107,7 +129,7 @@ export class XmlAttributesFlattenedEntryParser
 			for (const [id, parser] of Object.entries(parsers)) {
 				parsedValue = parser.serialize(value);
 				if (parsedValue !== undefined) {
-					path.push(`x-${id}`);
+					path.push(`${this.pragmaPrefix}${id}`);
 					break;
 				}
 			}

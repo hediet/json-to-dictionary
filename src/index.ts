@@ -4,4 +4,4 @@ export * from "./FlattenedEntry";
 export * from "./FlattenedEntryParser";
 export * from "./Flattener";
 export * from "./FlattenToDictionary";
-export * from "./XmlAttributesFlattenedEntryParser";
+export * from "./ConservativeFlattenedEntryParser";
